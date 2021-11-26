@@ -14,5 +14,14 @@ namespace PlannerPlus.Database
         public DbSet<Client> Clients { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }
+        public PlannerContext(DbContextOptions options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Master>()
+                .HasMany(m => m.Services)
+                .WithMany(s => s.Masters)
+                .UsingEntity(e => e.ToTable("MasterServices"));
+        }
     }
 }
