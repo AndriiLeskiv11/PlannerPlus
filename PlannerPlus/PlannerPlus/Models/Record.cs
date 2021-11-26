@@ -5,6 +5,13 @@ using System.Threading.Tasks;
 
 namespace PlannerPlus.Models
 {
+    public enum RecordStatus
+    {
+        Pending,
+        Completed,
+        Declined
+    }
+
     public class Record : EntityBase
     {
         public DateTime SeviceTime { get; set; }
@@ -14,5 +21,6 @@ namespace PlannerPlus.Models
         public Service Service { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
+        public RecordStatus Status { get; set; }
     }
 }
