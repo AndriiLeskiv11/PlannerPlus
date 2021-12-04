@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PlannerPlus.BusinessLogic;
 using PlannerPlus.Database;
+using PlannerPlus.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace PlannerPlus
             services.AddControllers();
             services.AddDbContext<PlannerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlannerDatabase")));
+            services.AddScoped(typeof(IRepository<>),typeof(GeneralRepository<>));
+            services.AddScoped<IMastersService, MastersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
