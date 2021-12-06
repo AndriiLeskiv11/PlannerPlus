@@ -32,8 +32,19 @@ namespace PlannerPlus
             services.AddControllers();
             services.AddDbContext<PlannerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlannerDatabase")));
-            services.AddScoped(typeof(IRepository<>),typeof(GeneralRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(GeneralRepository<>));
+            services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IMastersService, MastersService>();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +60,8 @@ namespace PlannerPlus
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
