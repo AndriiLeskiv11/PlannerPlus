@@ -36,6 +36,7 @@ namespace PlannerPlus
             services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IMastersService, MastersService>();
             services.AddScoped<IClientsService, ClientsService>();
+            services.AddScoped<IRecordsService, RecordsService>();
             object p = services.AddControllers().AddNewtonsoftJson();
            services.AddCors(options =>
             {
