@@ -20,16 +20,16 @@ namespace PlannerPlus.Controllers
         }
 
         [HttpPost]
-        public void Create(Record record)
+        public Task CreateAsync(Record record)
         {
-            _recordsService.Add(record);
+           return _recordsService.AddAsync(record);
         }
 
         [HttpGet]
 
-        public List<Record> GetAllRecords() 
+        public Task<List<Record>> GetAllRecordsAsync() 
         {
-            return _recordsService.GetAllRecords().ToList();
+            return _recordsService.GetAllRecordsAsync();
         }
     }
 }

@@ -8,8 +8,8 @@ namespace PlannerPlus.BusinessLogic
 {
     public interface IMastersService
     {
-        void Add(Master master);
-        IEnumerable<Master> GetAll();
+        Task AddAsync(Master master);
+        Task<List<Master>> GetAllAsync();
 
     }
 }

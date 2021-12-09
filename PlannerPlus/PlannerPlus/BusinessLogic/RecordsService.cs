@@ -1,4 +1,5 @@
-﻿using PlannerPlus.Models;
+﻿using Ardalis.Specification;
+using PlannerPlus.Models;
 using PlannerPlus.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,24 @@ namespace PlannerPlus.BusinessLogic
 {
     public class RecordsService : IRecordsService
     {
-        private readonly IRepository<Record> _repository;
-        public RecordsService (IRepository<Record> repository)
+        private readonly IRepositoryBase<Record> _repository;
+        public RecordsService (IRepositoryBase<Record> repository)
         {
             _repository = repository;
         }
-        public void Add(Record record)
+        public async Task AddAsync(Record record)
         {
             if (record.SeviceTime< DateTime.Now)
             {
                 throw new Exception("Exception of Record");
             }
-            _repository.Create(record);
-            _repository.Save();
+            await _repository.AddAsync(record);
+            await _repository.SaveChangesAsync();
         }
 
-        public IEnumerable<Record> GetAllRecords()
+        public Task<List<Record>> GetAllRecordsAsync()
         {
-            return _repository.GetAll();
+            return _repository.ListAsync();
         }
     }
 }

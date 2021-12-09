@@ -8,7 +8,7 @@ namespace PlannerPlus.BusinessLogic
 {
     public interface IRecordsService
     {
-        void Add(Record record);
-        IEnumerable<Record> GetAllRecords();
+        Task AddAsync(Record record);
+        Task<List<Record>> GetAllRecordsAsync();
     }
 }

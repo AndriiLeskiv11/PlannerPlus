@@ -1,4 +1,5 @@
-﻿using PlannerPlus.Models;
+﻿using Ardalis.Specification;
+using PlannerPlus.Models;
 using PlannerPlus.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,25 @@ namespace PlannerPlus.BusinessLogic
 {
     public class ServicesService : IServicesService
     {
-        private readonly IRepository<Service> _repository;
+        private readonly IRepositoryBase<Service> _repository;
 
-        public ServicesService(IRepository<Service> repository)
+        public ServicesService(IRepositoryBase<Service> repository)
         {
             _repository = repository;
         }
-        public void Add(Service service)
+        public async Task AddAsync(Service service)
         {
             if (string.IsNullOrEmpty(service.Name)) 
             {
                 throw new Exception("Wrong name of Service");
             }   
-            _repository.Create(service);
-            _repository.Save();
+           await _repository.AddAsync(service);
+           await _repository.SaveChangesAsync();
         }
 
-        public IEnumerable<Service> GetAllServices()
+        public Task<List<Service>> GetAllServicesAsync()
         {
-            return _repository.GetAll();
+            return _repository.ListAsync();
         }
     }
 }

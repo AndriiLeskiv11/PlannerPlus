@@ -4,30 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PlannerPlus.Repositories;
+using Ardalis.Specification;
 
 namespace PlannerPlus.BusinessLogic
 {
     public class MastersService : IMastersService
     {
-        private readonly IRepository<Master> _repository;
-        public MastersService(IRepository<Master> repository)
+        private readonly IRepositoryBase<Master> _repository;
+        public MastersService(IRepositoryBase<Master> repository)
         {
             _repository = repository;
         }
-        public void Add(Master master)
+        public async Task AddAsync(Master master)
         {
             if (string.IsNullOrEmpty(master.Name))
             {
                 throw new Exception("Wrong name of Master");
             }
 
-            _repository.Create(master);
-            _repository.Save();
+            await _repository.AddAsync(master);
+            await _repository.SaveChangesAsync();
         }
 
-        public IEnumerable<Master> GetAll()
+        public Task<List<Master>> GetAllAsync()
         {
-            return _repository.GetAll();
+            return _repository.ListAsync();
         }
     }
 }

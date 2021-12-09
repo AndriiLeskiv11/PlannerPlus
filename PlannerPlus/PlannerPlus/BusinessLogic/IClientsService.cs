@@ -8,8 +8,8 @@ namespace PlannerPlus.BusinessLogic
 {
     public interface IClientsService
     {
-        void Add(Client client);
-        IEnumerable<Client> GetAllClients();
+        Task AddAsync(Client client);
+        Task<List<Client>> GetAllClientsAsync();
 
     }
 }

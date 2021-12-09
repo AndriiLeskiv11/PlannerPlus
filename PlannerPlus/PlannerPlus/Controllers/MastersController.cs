@@ -21,15 +21,15 @@ namespace PlannerPlus.Controllers
         }
 
         [HttpPost]
-        public  void Create(Master master)
+        public  Task Create(Master master)
         {
-            _mastersService.Add(master);
+           return _mastersService.AddAsync(master);
         }
 
         [HttpGet]
-        public List<Master> GetAll()
+        public Task<List<Master>> GetAll()
         {
-           return _mastersService.GetAll().ToList();
+           return _mastersService.GetAllAsync();
 
         } 
     }

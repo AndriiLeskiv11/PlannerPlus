@@ -1,3 +1,4 @@
+using Ardalis.Specification;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,7 +33,7 @@ namespace PlannerPlus
             services.AddControllers();
             services.AddDbContext<PlannerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlannerDatabase")));
-            services.AddScoped(typeof(IRepository<>), typeof(GeneralRepository<>));
+            services.AddScoped(typeof(IRepositoryBase<>),typeof(GeneralRepository<>));
             services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IMastersService, MastersService>();
             services.AddScoped<IClientsService, ClientsService>();

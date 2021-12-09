@@ -20,15 +20,15 @@ namespace PlannerPlus.Controllers
         }
 
         [HttpPost]
-        public void Create(Client client)
+        public Task Create(Client client)
         {
-            _clientsServices.Add(client);
+            return _clientsServices.AddAsync(client);
         }
 
         [HttpGet]
-        public List<Client> GetAllClients()
+        public Task<List<Client>> GetAllClientsAsync()
         {
-            return _clientsServices.GetAllClients().ToList();
+            return _clientsServices.GetAllClientsAsync();
         }
     }
 }
