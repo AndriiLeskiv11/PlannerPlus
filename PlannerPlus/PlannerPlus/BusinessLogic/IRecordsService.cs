@@ -10,5 +10,6 @@ namespace PlannerPlus.BusinessLogic
     {
         Task AddAsync(Record record);
         Task<List<Record>> GetAllRecordsAsync();
+        Task<List<Record>> GetRecordsByDateAndMasterAsync(DateTime date, int masterId);
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PlannerPlus.Specifications.Record;
 
 namespace PlannerPlus.BusinessLogic
 {
@@ -28,6 +29,13 @@ namespace PlannerPlus.BusinessLogic
         public Task<List<Record>> GetAllRecordsAsync()
         {
             return _repository.ListAsync();
+        }
+
+        public Task<List<Record>> GetRecordsByDateAndMasterAsync(DateTime date, int masterId)
+        {
+            var spec = new RecordByDateAndMasterSpec(date, masterId);
+
+            return _repository.ListAsync(spec);
         }
     }
 }

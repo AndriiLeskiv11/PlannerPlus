@@ -31,5 +31,11 @@ namespace PlannerPlus.Controllers
         {
             return _recordsService.GetAllRecordsAsync();
         }
+
+        [HttpGet("by-date-and-master")]
+        public Task<List<Record>> GetRecordsByDateAndMasterAsync(DateTime date, int masterId)
+        {
+            return _recordsService.GetRecordsByDateAndMasterAsync(date,masterId);
+        }
     }
 }
