@@ -10,11 +10,10 @@ namespace PlannerPlus.Specifications.Record
             var currentDate = date.Date;
             var nextDate = currentDate.AddDays(1);
 
-            //TODO: Fix circular referencing
-            Query.Where(r => r.MasterId == masterId && r.SeviceTime >= currentDate && r.SeviceTime < nextDate);
-            //.Include(r => r.Master)
-            //.Include(r => r.Client)
-            //.Include(r => r.Service);
+            Query.Where(r => r.MasterId == masterId && r.SeviceTime >= currentDate && r.SeviceTime < nextDate)
+                .Include(r => r.Master)
+                .Include(r => r.Client)
+                .Include(r => r.Service);
         }
     }
 }

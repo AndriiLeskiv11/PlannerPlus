@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PlannerPlus
 {
@@ -30,7 +31,8 @@ namespace PlannerPlus
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddDbContext<PlannerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlannerDatabase")));
             services.AddScoped(typeof(IRepositoryBase<>),typeof(GeneralRepository<>));
@@ -38,8 +40,7 @@ namespace PlannerPlus
             services.AddScoped<IMastersService, MastersService>();
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IRecordsService, RecordsService>();
-            object p = services.AddControllers().AddNewtonsoftJson();
-           services.AddCors(options =>
+            services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
                     builder =>
