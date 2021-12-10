@@ -30,5 +30,21 @@ namespace PlannerPlus.BusinessLogic
         {
             return _repository.ListAsync();
         }
+
+        public async Task DeleteAsync(int masterId)
+        {
+            var master = new Master()
+            {
+                Id = masterId
+            };
+            await _repository.DeleteAsync(master);
+            await _repository.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Master master)
+        {
+            await _repository.UpdateAsync(master);
+            await _repository.SaveChangesAsync();
+        }
     }
 }

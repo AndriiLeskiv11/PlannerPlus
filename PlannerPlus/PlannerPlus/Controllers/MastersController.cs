@@ -31,6 +31,18 @@ namespace PlannerPlus.Controllers
         {
            return _mastersService.GetAllAsync();
 
-        } 
+        }
+
+        [HttpDelete]
+        public Task DeleteAsync(int masterId)
+        {
+            return _mastersService.DeleteAsync(masterId);
+        }
+
+        [HttpPut]
+        public Task UpdateAsync(Master master)
+        {
+            return _mastersService.UpdateAsync(master);
+        }
     }
 }

@@ -10,10 +10,10 @@ namespace PlannerPlus.BusinessLogic
 {
     public class ClientsService : IClientsService
     {
-        private readonly IRepositoryBase<Client> _repsitory;
+        private readonly IRepositoryBase<Client> _repository;
         public ClientsService (IRepositoryBase<Client> repository)
         {
-            _repsitory = repository;
+            _repository = repository;
         } 
         public async Task AddAsync(Client client)
         {
@@ -21,13 +21,13 @@ namespace PlannerPlus.BusinessLogic
             {
                 throw new Exception("Wrong name of client");
             }
-            await _repsitory.AddAsync(client);
-            await _repsitory.SaveChangesAsync();
+            await _repository.AddAsync(client);
+            await _repository.SaveChangesAsync();
         }
 
         public Task<List<Client>> GetAllClientsAsync()
         {
-           return _repsitory.ListAsync();
+           return _repository.ListAsync();
         }
     }
 }
