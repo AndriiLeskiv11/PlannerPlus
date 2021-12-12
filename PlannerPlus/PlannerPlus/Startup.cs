@@ -40,6 +40,7 @@ namespace PlannerPlus
             services.AddScoped<IMastersService, MastersService>();
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IRecordsService, RecordsService>();
+            services.AddScoped<IWorkDaysService, WorkDaysService>();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

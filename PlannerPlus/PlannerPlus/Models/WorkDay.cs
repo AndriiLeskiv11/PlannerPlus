@@ -7,7 +7,6 @@ namespace PlannerPlus.Models
 {
     public class WorkDay : EntityBase
     {
-        public DateTime Date { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime FinishTime { get; set; }
         public int MasterId { get; set; }

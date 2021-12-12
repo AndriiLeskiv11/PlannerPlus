@@ -13,6 +13,7 @@ namespace PlannerPlus.Specifications.Master
             var currentDate = date.Date;
             var nextDate = currentDate.AddDays(1);
 
+            //ToDo complete the query
             Query.Where(s => s.Id == serviceId)
                 .Include(s => s.Masters)
                 .ThenInclude(m => m.Records);
