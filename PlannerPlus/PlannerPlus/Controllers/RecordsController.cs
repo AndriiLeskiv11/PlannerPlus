@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlannerPlus.BusinessLogic;
 using PlannerPlus.Models;
@@ -11,6 +12,7 @@ namespace PlannerPlus.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RecordsController : ControllerBase
     {
         private readonly IRecordsService _recordsService;

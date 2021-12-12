@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using PlannerPlus.BusinessLogic;
 using PlannerPlus.Models;
 
@@ -11,6 +12,7 @@ namespace PlannerPlus.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WorkDaysController : ControllerBase
     {
         private readonly IWorkDaysService _daysService;

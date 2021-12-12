@@ -15,7 +15,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using PlannerPlus.Auth;
+using PlannerPlus.Models;
 
 namespace PlannerPlus
 {
@@ -31,16 +37,55 @@ namespace PlannerPlus
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+            services.AddScoped<IPasswordHasher<Administrator>, BCryptPasswordHasher<Administrator>>();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddDbContext<PlannerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("PlannerDatabase")));
-            services.AddScoped(typeof(IRepositoryBase<>),typeof(GeneralRepository<>));
+            services.AddScoped(typeof(IRepositoryBase<>), typeof(GeneralRepository<>));
             services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IMastersService, MastersService>();
             services.AddScoped<IClientsService, ClientsService>();
             services.AddScoped<IRecordsService, RecordsService>();
             services.AddScoped<IWorkDaysService, WorkDaysService>();
+            services.AddScoped<IAdministratorService, AdministratorService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Authentication Token",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                    {
+                        new OpenApiSecurityScheme{
+                            Reference = new OpenApiReference{
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },new List<string>()
+                    }
+                });
+            });
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
@@ -49,7 +94,7 @@ namespace PlannerPlus
                         builder.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
-                });
+                    });
             });
         }
 
@@ -59,11 +104,15 @@ namespace PlannerPlus
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
