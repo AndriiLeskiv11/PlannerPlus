@@ -10,7 +10,7 @@ namespace PlannerPlus.Specifications.Record
             var currentDate = date.Date;
             var nextDate = currentDate.AddDays(1);
 
-            Query.Where(r => r.MasterId == masterId && r.SeviceTime >= currentDate && r.SeviceTime < nextDate)
+            Query.Where(r => r.MasterId == masterId && r.StartTime >= currentDate && r.StartTime < nextDate)
                 .Include(r => r.Master)
                 .Include(r => r.Client)
                 .Include(r => r.Service);

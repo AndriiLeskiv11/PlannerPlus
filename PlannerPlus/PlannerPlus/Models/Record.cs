@@ -14,7 +14,8 @@ namespace PlannerPlus.Models
 
     public class Record : EntityBase
     {
-        public DateTime SeviceTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public int MasterId { get; set; }
         public Master Master { get; set; }
         public int ServiceId { get; set; }
