@@ -3,17 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Xsl;
 using PlannerPlus.Repositories;
 using Ardalis.Specification;
+using PlannerPlus.Specifications.Master;
 
 namespace PlannerPlus.BusinessLogic
 {
     public class MastersService : IMastersService
     {
         private readonly IRepositoryBase<Master> _repository;
-        public MastersService(IRepositoryBase<Master> repository)
+        private readonly IRepositoryBase<Service> _serviceRepository;
+
+        public MastersService(IRepositoryBase<Master> repository,IRepositoryBase<Service> serviceRepository)
         {
             _repository = repository;
+            _serviceRepository = serviceRepository;
         }
         public async Task AddAsync(Master master)
         {
@@ -31,6 +36,19 @@ namespace PlannerPlus.BusinessLogic
             return _repository.ListAsync();
         }
 
+        public async Task AddMasterServiceAsync(int masterId, int serviceId)
+        {
+            var masterWithServiceSpec = new MasterWithServicesSpec(masterId);
+            var master = await  _repository.GetBySpecAsync(masterWithServiceSpec);
+            var service = await _serviceRepository.GetByIdAsync(serviceId);
+            if (master == null || service == null)
+            {
+                throw new Exception("Master or service doesn't exist");
+            }
+            master.Services.Add(service);
+           await _repository.SaveChangesAsync();
+
+        }
         public async Task DeleteAsync(int masterId)
         {
             var master = new Master()

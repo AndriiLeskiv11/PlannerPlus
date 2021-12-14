@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using PlannerPlus.Dto;
 
 namespace PlannerPlus.Controllers
 {
@@ -46,5 +47,14 @@ namespace PlannerPlus.Controllers
         {
             return _mastersService.UpdateAsync(master);
         }
+
+        [HttpPost("add-master-service")]
+        public Task AddMasterServiceAsync(MasterServiceDto masterServiceDto)
+        {
+            return _mastersService.AddMasterServiceAsync(masterServiceDto.MasterId,masterServiceDto.ServiceId);
+        }
+
+
+
     }
 }
