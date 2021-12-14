@@ -11,5 +11,7 @@ namespace PlannerPlus.BusinessLogic
         Task AddAsync(Client client);
         Task<List<Client>> GetAllClientsAsync();
 
+        Task DeleteClientAsync(int clientId);
+        Task UpdateClientAsync(Client client);
     }
 }

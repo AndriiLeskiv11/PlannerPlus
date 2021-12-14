@@ -10,7 +10,8 @@ namespace PlannerPlus.BusinessLogic
     {
         Task AddAsync(Service service);
         Task<List<Service>> GetAllServicesAsync();
-
+        Task DeleteServiceAsync(int serviceId);
+        Task UpdateServiceAsync(Service service);
 
     }
 }

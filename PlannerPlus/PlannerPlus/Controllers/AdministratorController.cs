@@ -21,16 +21,16 @@ namespace PlannerPlus.Controllers
             _administratorService = administratorService;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public Task RegisterAsync(Administrator administrator)
         {
             return _administratorService.RegisterAsync(administrator);
         }
 
-        [HttpGet]
-        public Task<LoginResultDto> LoginAsync(string username, string password)
+        [HttpPost("login")]
+        public Task<LoginResultDto> LoginAsync(LoginDto loginDto)
         {
-            return _administratorService.LoginAsync(username, password);
+            return _administratorService.LoginAsync(loginDto.UserName,loginDto.Password);
         }
     }
 }

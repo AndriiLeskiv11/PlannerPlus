@@ -25,9 +25,26 @@ namespace PlannerPlus.BusinessLogic
             await _repository.SaveChangesAsync();
         }
 
+        public async Task DeleteClientAsync(int clientId)
+        {
+            var client = new Client()
+            {
+                Id = clientId
+            };
+            await _repository.DeleteAsync(client);
+            await _repository.SaveChangesAsync();
+        }
+
         public Task<List<Client>> GetAllClientsAsync()
         {
            return _repository.ListAsync();
+        }
+
+        public async Task UpdateClientAsync(Client client)
+        {
+           await _repository.UpdateAsync(client);
+           await _repository.SaveChangesAsync();
+
         }
     }
 }

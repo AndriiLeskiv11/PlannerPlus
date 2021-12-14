@@ -29,10 +29,21 @@ namespace PlannerPlus.Controllers
         }
 
         [HttpGet]
-
         public Task<List<Service>> GetAllServicesAsync()
         {
             return _servicesService.GetAllServicesAsync();
+        }
+
+        [HttpDelete]
+        public Task DeleteServiceAsync(int serviceId)
+        {
+            return _servicesService.DeleteServiceAsync(serviceId);
+        }
+
+        [HttpPut]
+        public Task UpdateServiceAsync(Service service)
+        {
+            return _servicesService.UpdateServiceAsync(service);
         }
     }
 }

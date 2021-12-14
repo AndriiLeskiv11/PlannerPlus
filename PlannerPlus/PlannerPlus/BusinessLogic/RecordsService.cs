@@ -26,9 +26,9 @@ namespace PlannerPlus.BusinessLogic
         }
         public async Task AddAsync(Record record)
         {
-            if (record.StartTime < DateTime.Now)
+            if (record.StartTime >= record.EndTime || record.StartTime < DateTime.Now)
             {
-                throw new Exception("Exception of Record");
+                throw new Exception("Not valid record");
             }
 
             var workDaySpec = new WorkDayByMasterIncludingRangeSpec(record.StartTime, record.EndTime, record.MasterId);
@@ -37,6 +37,7 @@ namespace PlannerPlus.BusinessLogic
             {
                 throw new Exception("Is not a work day");
             }
+
             var recordSpec = new OverlappingRecordsByMater(record.StartTime, record.EndTime, record.MasterId);
             int recordCount = await _repository.CountAsync(recordSpec);
             if (recordCount > 0)
@@ -46,7 +47,6 @@ namespace PlannerPlus.BusinessLogic
 
             var masterWithServiceSpec = new MasterWithServicesSpec(record.MasterId);
             var master = await _masterRepository.GetBySpecAsync(masterWithServiceSpec);
-
             if (master == null)
             {
                 throw new Exception("This master doesn't exist");
@@ -71,6 +71,16 @@ namespace PlannerPlus.BusinessLogic
             var spec = new RecordByDateAndMasterSpec(date, masterId);
 
             return _repository.ListAsync(spec);
+        }
+
+        public async Task DeleteRecordAsync(int recordId)
+        {
+            var record = new Record
+            {
+                Id = recordId
+            };
+           await _repository.DeleteAsync(record);
+           await _repository.SaveChangesAsync();
         }
     }
 }

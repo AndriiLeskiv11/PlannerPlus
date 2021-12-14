@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using PlannerPlus.BusinessLogic;
+using PlannerPlus.Dto;
 using PlannerPlus.Models;
 
 namespace PlannerPlus.Controllers
@@ -33,5 +34,19 @@ namespace PlannerPlus.Controllers
         {
             return _daysService.DeleteWorkDayAsync(ids);
         }
+
+        [HttpPut]
+        public Task UpdateWorkDayAsync(WorkDay workday)
+        {
+            return _daysService.UpdateWorkDayAsync(workday);
+        }
+
+        [HttpPost("get-master-schedule")]
+        public Task<List<WorkDay>> GetMasterWorkDaysAsync(GetWorkDayDto getWorkDayDto)
+        {
+            return _daysService.GetMasterWorkDaysAsync(getWorkDayDto.MasterId, getWorkDayDto.StartDate,
+                getWorkDayDto.EndDate);
+        }
+
     }
 }

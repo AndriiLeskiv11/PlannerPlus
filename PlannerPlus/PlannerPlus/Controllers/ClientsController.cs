@@ -32,5 +32,17 @@ namespace PlannerPlus.Controllers
         {
             return _clientsServices.GetAllClientsAsync();
         }
+
+        [HttpDelete]
+        public Task DeleteClientAsync(int clientId)
+        {
+            return _clientsServices.DeleteClientAsync(clientId);
+        }
+
+        [HttpPut]
+        public Task UpdateClientAsync(Client client)
+        {
+            return _clientsServices.UpdateClientAsync(client);
+        }
     }
 }

@@ -39,5 +39,11 @@ namespace PlannerPlus.Controllers
         {
             return _recordsService.GetRecordsByDateAndMasterAsync(date,masterId);
         }
+
+        [HttpDelete]
+        public Task DeleteRecord(int recordId)
+        {
+            return _recordsService.DeleteRecordAsync(recordId);
+        }
     }
 }
